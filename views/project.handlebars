@@ -1,0 +1,22 @@
+<section>
+    <main>
+        <h1>Porject name : {{project.title}}</h1>
+        <p>{{project.info}}</p>
+        <div class="cont-video"></div>
+    </main>
+</section>
+<script>
+    let video = "{{{ project.video }}}";
+    if (!String(video).includes("/videos")) {
+        console.log("video do youtube");
+
+        $(`div.cont-video`).html(`  <iframe src="https://www.youtube.com/embed/${video}?autoplay=1&mute=1&enablejsapi=1;controls=0&si=dxgTfMLHOGHV8WLQ&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+     `);
+    } else {
+        $(`div.cont-video`).html(`  <video autoplay muted>
+        <source src="/videos/happy birthday.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>`)
+
+    }
+</script>

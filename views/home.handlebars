@@ -1,1 +1,73 @@
-{{{Home}}}
+<section class="back"></section>
+<section class="forward">
+    <header><span class="logo">
+            <a href="/">
+                my company
+            </a>
+        </span></header>
+    <main>
+
+    </main>
+    <div class="contact">
+        <a href="https://www.instagram.com/colorstudio/" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <p class="company">Company.png</p>
+    </div>
+</section>
+<script>
+    const data = {{{ data }}}
+
+    for (const project of data.projects) {
+        $("section.forward main").append(`
+            <div class="title" >${project.title}</div>
+        `)
+    }
+
+    $(`div.title`).hover((event) => {
+        $(`section.back.close`).removeClass("close");
+        let nameProject = event.currentTarget.innerHTML;
+
+        //get video of project
+        let project = GetProject(nameProject);
+
+        if (!String(project.video).includes("/videos")) {
+            console.log("video do youtube");
+
+            $(`section.back`).html(`  <iframe src="https://www.youtube.com/embed/${project.video}?autoplay=1&mute=1&enablejsapi=1;controls=0&si=dxgTfMLHOGHV8WLQ&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+     `);
+        } else {
+            $(`section.back`).html(`  <video autoplay muted>
+        <source src="/videos/happy birthday.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>`)
+
+        }
+
+    }, () => {
+        $(`section.back`).addClass(`close`);
+    })
+
+    $(`div.title`).click(event => {
+        let name = event.currentTarget.innerHTML;
+        window.location = "/project/" + name;
+    })
+
+    function GetProject(name) {
+        for (const project of data.projects) {
+            if (project.title == name)
+                return project;
+        }
+    }
+    function addyoutubeVideo(iframeString) {
+        //var iframeString = '<iframe width="560" height="315" src="https://www.youtube.com/embed/_rmb8JhEW_E?si=dxgTfMLHOGHV8WLQ&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
+
+        // Use expressões regulares para extrair o ID do vídeo
+        var match = iframeString.match(/\/embed\/([^?"]+)/);
+
+        // Verifique se houve correspondência e obtenha o ID do vídeo
+        var videoId = match ? match[1] : null;
+
+        return videoId;
+    }
+</script>
